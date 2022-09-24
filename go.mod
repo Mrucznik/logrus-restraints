@@ -1,4 +1,4 @@
-module logrus_restraints
+module github.com/Mrucznik/logrus-restraints
 
 go 1.18
 
