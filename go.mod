@@ -1,4 +1,4 @@
-module logrus-restraints
+module logrus_restraints
 
 go 1.18
 
