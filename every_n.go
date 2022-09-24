@@ -1,4 +1,4 @@
-package main
+package logrus_restraints
 
 import (
 	"github.com/sirupsen/logrus"
@@ -14,7 +14,7 @@ func EveryN(n uint) *logrus.Logger {
 		panic("cannot find caller")
 	}
 
-	key := ttlKey(file, line)
+	key := callKey(file, line)
 	timesRaw, alreadyCalled := everyNCallers.Load(key)
 
 	if alreadyCalled {
@@ -30,5 +30,5 @@ func EveryN(n uint) *logrus.Logger {
 	}
 
 	everyNCallers.Store(key, uint(1))
-	return std.Logger
+	return std
 }

@@ -1,4 +1,4 @@
-package main
+package logrus_restraints
 
 import (
 	"fmt"
@@ -16,18 +16,14 @@ func WithTTL(duration time.Duration) *logrus.Logger {
 		panic("cannot find caller")
 	}
 
-	if _, alreadyCalled := ttlCallers.Load(ttlKey(file, line)); alreadyCalled {
+	if _, alreadyCalled := ttlCallers.Load(callKey(file, line)); alreadyCalled {
 		return emptyLogger
 	}
 
-	ttlCallers.Store(ttlKey(file, line), struct{}{})
+	ttlCallers.Store(callKey(file, line), struct{}{})
 	go time.AfterFunc(duration, func() {
 		ttlCallers.Delete(fmt.Sprintf("%s%d", file, line))
 	})
 
-	return std.Logger
-}
-
-func ttlKey(file string, line int) string {
-	return fmt.Sprintf("%s%d", file, line)
+	return std
 }
